@@ -30,7 +30,7 @@ public class ControllerLogIntercept extends HandlerInterceptorAdapter {
     private static final String ERROR_TIMESTAMP_URL = "/moLi/common/timestampError";
     private static final String ERROR_API_KEY_URL = "/moLi/common/apiKeyError";
     private static final String ERROR_SIGN_URL = "/moLi/common/signError";
-    private static Logger logger = Logger.getLogger( ControllerLogIntercept.class );
+    private static Logger logger = Logger.getLogger(ControllerLogIntercept.class);
 
     @Autowired
     private SysUncheckUrlMapper sysUncheckUrlMapper;
@@ -44,11 +44,11 @@ public class ControllerLogIntercept extends HandlerInterceptorAdapter {
         boolean success = super.preHandle(request, response, handler);
         String requestURL = request.getRequestURI();
         String ipAddress = this.getIpAddress(request);
-        logger.debug( "用户IP地址为["+ ipAddress +"]，访问了[" + requestURL + "]" );
-        for( Enumeration parameterNames = request.getParameterNames(); parameterNames.hasMoreElements(); )
+        logger.debug("用户IP地址为[" + ipAddress + "]，访问了[" + requestURL + "]");
+        for (Enumeration parameterNames = request.getParameterNames(); parameterNames.hasMoreElements(); )
         {
-            String paramName = ( String ) parameterNames.nextElement();
-            logger.debug( "参数名[" + paramName + "]参数值[" + request.getParameter( paramName ) + "]" );
+            String paramName = (String) parameterNames.nextElement();
+            logger.debug("参数名[" + paramName + "]参数值[" + request.getParameter(paramName) + "]");
         }
         //判断请求是否无需校验
         if (!checkUrl(requestURL))
@@ -59,6 +59,7 @@ public class ControllerLogIntercept extends HandlerInterceptorAdapter {
             //验证参数是否缺失
             if (StringUtils.isBlank(api_id) || StringUtils.isBlank(timestamp) || StringUtils.isBlank(sign))
             {
+                logger.debug("用户IP地址为[" + ipAddress + "],访问地址参数缺失[api_id:" + api_id + "|timestamp:" + timestamp + "|sign:" + sign + "]");
                 response.sendRedirect(ControllerLogIntercept.ERROR_argumentsError_URL);
                 return false;
             }
@@ -68,13 +69,15 @@ public class ControllerLogIntercept extends HandlerInterceptorAdapter {
             long flag = serverTime - clientTime;
             if (flag < 0 || flag > ControllerLogIntercept.invalidTime)
             {
+                logger.debug("用户IP地址为[" + ipAddress + "],访问请求超时");
                 response.sendRedirect(ControllerLogIntercept.ERROR_TIMESTAMP_URL);
                 return false;
             }
-            //校验api_key是否正确
-            Map<String,Object> apiMap = sysApiKeyMapper.getInfoByApiId(api_id);
-            if(apiMap == null || apiMap.isEmpty())
+            //校验api_id是否正确
+            Map<String, Object> apiMap = sysApiKeyMapper.getInfoByApiId(api_id);
+            if (apiMap == null || apiMap.isEmpty())
             {
+                logger.debug("用户IP地址为[" + ipAddress + "],api_id错误");
                 response.sendRedirect(ControllerLogIntercept.ERROR_API_KEY_URL);
                 return false;
             }
@@ -82,8 +85,9 @@ public class ControllerLogIntercept extends HandlerInterceptorAdapter {
             //校验签名
             //本地根据md5加密生成签名做对比
             String localSign = Md5Utils.EncoderByMd5(requestURL + api_id + api_key + timestamp);
-            if(!sign.equals(localSign))
+            if (!sign.equals(localSign))
             {
+                logger.debug("用户IP地址为[" + ipAddress + "]签名sign错误");
                 response.sendRedirect(ControllerLogIntercept.ERROR_SIGN_URL);
                 return false;
             }
@@ -101,39 +105,38 @@ public class ControllerLogIntercept extends HandlerInterceptorAdapter {
     /**
      * 从HttpServletRequest获取用户客户端IP地址
      */
-    private String getIpAddress( HttpServletRequest request )
+    private String getIpAddress(HttpServletRequest request)
     {
-        String ip = request.getHeader( "X-Forwarded-For" );
+        String ip = request.getHeader("X-Forwarded-For");
 
-        if( ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase( ip ) )
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
         {
-            if( ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase( ip ) )
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
             {
-                ip = request.getHeader( "Proxy-Client-IP" );
+                ip = request.getHeader("Proxy-Client-IP");
             }
-            if( ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase( ip ) )
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
             {
-                ip = request.getHeader( "WL-Proxy-Client-IP" );
+                ip = request.getHeader("WL-Proxy-Client-IP");
             }
-            if( ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase( ip ) )
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
             {
-                ip = request.getHeader( "HTTP_CLIENT_IP" );
+                ip = request.getHeader("HTTP_CLIENT_IP");
             }
-            if( ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase( ip ) )
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
             {
-                ip = request.getHeader( "HTTP_X_FORWARDED_FOR" );
+                ip = request.getHeader("HTTP_X_FORWARDED_FOR");
             }
-            if( ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase( ip ) )
+            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
             {
                 ip = request.getRemoteAddr();
             }
-        }
-        else if( ip.length() > 15 )
+        } else if (ip.length() > 15)
         {
-            String[] ips = ip.split( "," );
-            for( String ip1 : ips )
+            String[] ips = ip.split(",");
+            for (String ip1 : ips)
             {
-                if( !( "unknown".equalsIgnoreCase( ip1 ) ) )
+                if (!("unknown".equalsIgnoreCase(ip1)))
                 {
                     ip = ip1;
                     break;
