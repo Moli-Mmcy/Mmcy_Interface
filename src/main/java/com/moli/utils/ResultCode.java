@@ -1,4 +1,4 @@
-package com.moli.common;
+package com.moli.utils;
 
 /**
  * <p>名称</p>

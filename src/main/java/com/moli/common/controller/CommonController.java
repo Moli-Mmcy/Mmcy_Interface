@@ -1,5 +1,6 @@
-package com.moli.common;
+package com.moli.common.controller;
 
+import com.moli.utils.ResultCode;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
