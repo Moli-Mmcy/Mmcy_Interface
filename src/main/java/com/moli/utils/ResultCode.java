@@ -12,6 +12,6 @@ package com.moli.utils;
 public class ResultCode {
     public static final String ERROR_ARGUMENTS_CODE = "0001";
     public static final String ERROR_TIMESTAMP_CODE = "0002";
-    public static final String ERROR_API_KEY_CODE = "0003";
+    public static final String ERROR_API_ID_CODE = "0003";
     public static final String ERROR_SIGN_CODE = "0004";
 }

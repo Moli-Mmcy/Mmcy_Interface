@@ -39,7 +39,7 @@ public class CommonController {
     @RequestMapping("/apiKeyError")
     public Map apiKeyError() {
         Map message = new HashMap<>();
-        message.put("code", ResultCode.ERROR_API_KEY_CODE);
+        message.put("code", ResultCode.ERROR_API_ID_CODE);
         message.put("msg","api_id值错误");
         return message;
     }
