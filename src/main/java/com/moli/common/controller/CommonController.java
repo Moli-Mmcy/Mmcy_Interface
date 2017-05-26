@@ -23,7 +23,7 @@ public class CommonController {
     @RequestMapping("/argumentsError")
     public Map argumentsError() {
         Map message = new HashMap<>();
-        message.put("code", ResultCode.ERROR_ARGUMENTS_CODE);
+        message.put("error_code", ResultCode.ERROR_ARGUMENTS_CODE);
         message.put("msg","参数错误:api_key|timestamp|sign不能为空");
         return message;
     }
@@ -31,7 +31,7 @@ public class CommonController {
     @RequestMapping("/timestampError")
     public Map timestampError() {
         Map message = new HashMap<>();
-        message.put("code", ResultCode.ERROR_TIMESTAMP_CODE);
+        message.put("error_code", ResultCode.ERROR_TIMESTAMP_CODE);
         message.put("msg","请求超时:链接时效已过期");
         return message;
     }
@@ -39,7 +39,7 @@ public class CommonController {
     @RequestMapping("/apiKeyError")
     public Map apiKeyError() {
         Map message = new HashMap<>();
-        message.put("code", ResultCode.ERROR_API_ID_CODE);
+        message.put("error_code", ResultCode.ERROR_API_ID_CODE);
         message.put("msg","api_id值错误");
         return message;
     }
@@ -47,7 +47,7 @@ public class CommonController {
     @RequestMapping("/signError")
     public Map signError() {
         Map message = new HashMap<>();
-        message.put("code", ResultCode.ERROR_SIGN_CODE);
+        message.put("error_code", ResultCode.ERROR_SIGN_CODE);
         message.put("msg","签名错误");
         return message;
     }
