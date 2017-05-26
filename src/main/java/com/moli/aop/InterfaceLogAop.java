@@ -1,16 +1,21 @@
 package com.moli.aop;
 
+import com.moli.sys.dao.SysLogsMapper;
+import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>名称</p>
@@ -27,6 +32,9 @@ public class InterfaceLogAop {
 
     private static Logger logger = Logger.getLogger(InterfaceLogAop.class);
 
+    @Autowired
+    private SysLogsMapper sysLogsMapper;
+
     //定义切点
     @Pointcut("execution(public * com.moli.*.controller.*.*(..))")
     public void logPoint()
@@ -37,7 +45,6 @@ public class InterfaceLogAop {
     @Around("logPoint()")
     public Object saveLogs(ProceedingJoinPoint joinPoint)
     {
-        System.out.println("进入切点");
         long startTime = System.currentTimeMillis();
         //调用方法
         String methodClass = joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName();
@@ -72,11 +79,29 @@ public class InterfaceLogAop {
             String msg = "用户IP:" + ip + ",地址" + url + ",\n请求方式:" + httpMethod + ",方法:" + methodClass +
                     ",参数:" + args + ",结果:" + result + ",执行时间:" + (methodEnd - startTime);
             logger.error(msg);
+            Map<String,Object> paramsMap = new HashMap<>();
+            paramsMap.put("ip", ip);
+            paramsMap.put("url", url);
+            paramsMap.put("method", httpMethod);
+            paramsMap.put("clsNames", methodClass);
+            paramsMap.put("args", args);
+            paramsMap.put("result", JSONObject.fromObject(result).toString());
+            paramsMap.put("times", methodEnd - startTime);
+            sysLogsMapper.insert(paramsMap);
         }
         methodEnd = System.currentTimeMillis();
         String msg = "用户IP:" + ip + ",地址" + url + ",\n请求方式:" + httpMethod + ",方法:" + methodClass +
                 ",参数:" + args + ",结果:" + result + ",执行时间:" + (methodEnd - startTime);
         logger.info(msg);
+        Map<String,Object> paramsMap = new HashMap<>();
+        paramsMap.put("ip", ip);
+        paramsMap.put("url", url);
+        paramsMap.put("method", httpMethod);
+        paramsMap.put("clsNames", methodClass);
+        paramsMap.put("args", args);
+        paramsMap.put("result", JSONObject.fromObject(result).toString());
+        paramsMap.put("times", methodEnd - startTime);
+        sysLogsMapper.insert(paramsMap);
         return result;
     }
 
