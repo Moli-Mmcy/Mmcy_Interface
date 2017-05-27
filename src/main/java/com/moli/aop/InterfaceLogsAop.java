@@ -28,9 +28,9 @@ import java.util.Map;
  */
 @Component
 @Aspect
-public class InterfaceLogAop {
+public class InterfaceLogsAop {
 
-    private static Logger logger = Logger.getLogger(InterfaceLogAop.class);
+    private static Logger logger = Logger.getLogger(InterfaceLogsAop.class);
 
     @Autowired
     private SysLogsMapper sysLogsMapper;
