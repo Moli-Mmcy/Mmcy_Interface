@@ -13,5 +13,8 @@ import java.util.Map;
  * @Date 2017/5/27
  */
 public interface ISysLogsService {
+
     List<Map<String,Object>> listSlogs();
+
+    Map<String,Object> getSlogsById(Integer id);
 }

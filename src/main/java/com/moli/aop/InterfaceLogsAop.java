@@ -62,7 +62,7 @@ public class InterfaceLogsAop {
             {
                 String paramName = (String) parameterNames.nextElement();
                 args += "参数名[" + paramName + "]参数值[" + request.getParameter(paramName) + "]";
-                logger.debug("参数名[" + paramName + "]参数值[" + request.getParameter(paramName) + "]");
+                //logger.debug("参数名[" + paramName + "]参数值[" + request.getParameter(paramName) + "]");
             }
         }
         long methodEnd;
@@ -78,28 +78,28 @@ public class InterfaceLogsAop {
             result = throwable.getMessage();
             String msg = "用户IP:" + ip + ",地址" + url + ",\n请求方式:" + httpMethod + ",方法:" + methodClass +
                     ",参数:" + args + ",结果:" + result + ",执行时间:" + (methodEnd - startTime);
-            logger.error(msg);
+            //logger.error(msg);
             Map<String,Object> paramsMap = new HashMap<>();
             paramsMap.put("ip", ip);
             paramsMap.put("url", url);
             paramsMap.put("method", httpMethod);
             paramsMap.put("clsNames", methodClass);
             paramsMap.put("args", args);
-            paramsMap.put("result", JSONObject.fromObject(result).toString());
+            //paramsMap.put("result", JSONObject.fromObject(result).toString());
             paramsMap.put("times", methodEnd - startTime);
             sysLogsMapper.insert(paramsMap);
         }
         methodEnd = System.currentTimeMillis();
         String msg = "用户IP:" + ip + ",地址" + url + ",\n请求方式:" + httpMethod + ",方法:" + methodClass +
                 ",参数:" + args + ",结果:" + result + ",执行时间:" + (methodEnd - startTime);
-        logger.info(msg);
+        //logger.info(msg);
         Map<String,Object> paramsMap = new HashMap<>();
         paramsMap.put("ip", ip);
         paramsMap.put("url", url);
         paramsMap.put("method", httpMethod);
         paramsMap.put("clsNames", methodClass);
         paramsMap.put("args", args);
-        paramsMap.put("result", JSONObject.fromObject(result).toString());
+        //paramsMap.put("result", JSONObject.fromObject(result).toString());
         paramsMap.put("times", methodEnd - startTime);
         sysLogsMapper.insert(paramsMap);
         return result;
