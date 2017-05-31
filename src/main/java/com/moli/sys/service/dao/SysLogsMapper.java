@@ -1,7 +1,9 @@
-package com.moli.sys.dao;
+package com.moli.sys.service.dao;
 
 import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,4 +19,9 @@ public interface SysLogsMapper {
 
     @InsertProvider(type = SysLogsSqlProvider.class,method = "insert")
     int insert(Map<String,Object> paramsMap);
+
+    @Select({
+            "select * from sys_logs"
+    })
+    List<Map<String,Object>> listSlogs();
 }

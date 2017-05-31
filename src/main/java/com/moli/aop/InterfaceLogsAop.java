@@ -1,6 +1,6 @@
 package com.moli.aop;
 
-import com.moli.sys.dao.SysLogsMapper;
+import com.moli.sys.service.dao.SysLogsMapper;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;

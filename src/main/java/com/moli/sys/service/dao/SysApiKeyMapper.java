@@ -1,4 +1,4 @@
-package com.moli.sys.dao;
+package com.moli.sys.service.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

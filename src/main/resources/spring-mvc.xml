@@ -98,7 +98,7 @@
 
     <!-- 数据库映射接口扫描 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.moli.*.dao"/>
+        <property name="basePackage" value="com.moli.*.*.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
@@ -112,5 +112,7 @@
 
     <!--启动自动代理-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <import resource="classpath:spring-ehcache.xml"/>
 
 </beans>

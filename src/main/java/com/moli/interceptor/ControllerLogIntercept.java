@@ -1,7 +1,7 @@
 package com.moli.interceptor;
 
-import com.moli.sys.dao.SysApiKeyMapper;
-import com.moli.sys.dao.SysUncheckUrlMapper;
+import com.moli.sys.service.dao.SysApiKeyMapper;
+import com.moli.sys.service.dao.SysUncheckUrlMapper;
 import com.moli.utils.Md5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
