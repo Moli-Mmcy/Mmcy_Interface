@@ -34,7 +34,7 @@
     <bean id="demoQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- 设置消息队列的名字 -->
         <constructor-arg>
-            <value>unionpay.demo</value>
+            <value>activemq.demo</value>
         </constructor-arg>
     </bean>
 
