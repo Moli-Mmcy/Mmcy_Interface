@@ -1,4 +1,5 @@
-jdbc.database.url=jdbc:mysql://192.168.30.141:3306/moli?useUnicode=true&amp;characterEncoding=UTF-8
+jdbc.Driver=com.mysql.jdbc.Driver
+jdbc.database.url=jdbc:mysql://127.0.0.1:3306/mmcy?useUnicode=true&amp;characterEncoding=UTF-8
 jdbc.database.username=root
 jdbc.database.password=root
 # 生产需改为15

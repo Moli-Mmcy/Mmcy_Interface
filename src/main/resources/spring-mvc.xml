@@ -32,6 +32,7 @@
         <property name="propertiesArray">
             <array>
                 <ref bean="configProperties" />
+                <ref bean="activeMqProperties" />
             </array>
         </property>
     </bean>
@@ -42,6 +43,10 @@
 
     <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="location" value="classpath:dbconfig.properties"/>
+    </bean>
+
+    <bean id="activeMqProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:activemq.properties"/>
     </bean>
 
     <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
@@ -56,15 +61,15 @@
         <property name="defaultAutoCommit" value="false"/>
     </bean>-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="driverClassName" value="${jdbc.Driver}" />
         <property name="url" value="${jdbc.database.url}" />
         <property name="username" value="${jdbc.database.username}" />
         <property name="password" value="${jdbc.database.password}" />
 
-        <property name="maxActive" value="20" />
-        <property name="initialSize" value="1" />
-        <property name="maxWait" value="60000" />
-        <property name="minIdle" value="1" />
+        <property name="maxActive" value="${datasource.maxActive}" />
+        <property name="initialSize" value="${datasource.initialSize}" />
+        <property name="maxWait" value="${datasource.maxWait}" />
+        <property name="minIdle" value="${datasource.maxIdle}" />
 
         <property name="validationQuery" value="SELECT 1" /> <!-- 验证连接是否成功, SQL SELECT 指令至少要返回一行  (测试/验证连接池连接的SQL语句也因数据库而异)-->
         <property name="testOnBorrow" value="false" /> <!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 -->
